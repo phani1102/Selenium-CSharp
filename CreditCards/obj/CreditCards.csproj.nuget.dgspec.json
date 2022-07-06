@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "E:\\Selenium\\01CreatingTestProject\\CreditCards\\CreditCards.csproj": {}
+    "E:\\Selenium\\Selenium-CSharp\\CreditCards\\CreditCards.csproj": {}
   },
   "projects": {
-    "E:\\Selenium\\01CreatingTestProject\\CreditCards\\CreditCards.csproj": {
+    "E:\\Selenium\\Selenium-CSharp\\CreditCards\\CreditCards.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "E:\\Selenium\\01CreatingTestProject\\CreditCards\\CreditCards.csproj",
+        "projectUniqueName": "E:\\Selenium\\Selenium-CSharp\\CreditCards\\CreditCards.csproj",
         "projectName": "CreditCards",
-        "projectPath": "E:\\Selenium\\01CreatingTestProject\\CreditCards\\CreditCards.csproj",
+        "projectPath": "E:\\Selenium\\Selenium-CSharp\\CreditCards\\CreditCards.csproj",
         "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
-        "outputPath": "E:\\Selenium\\01CreatingTestProject\\CreditCards\\obj\\",
+        "outputPath": "E:\\Selenium\\Selenium-CSharp\\CreditCards\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Admin\\AppData\\Roaming\\NuGet\\NuGet.Config",

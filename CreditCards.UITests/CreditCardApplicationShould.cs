@@ -1,9 +1,10 @@
 ﻿using Xunit;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
-using System.Collections.Generic;
 using OpenQA.Selenium.Support.UI;
 using System;
+using Xunit.Abstractions;
+using System.Collections.ObjectModel;
 
 namespace CreditCards.UITests
 {
@@ -12,6 +13,13 @@ namespace CreditCards.UITests
     {
         const string HomeUrl = "http://localhost:44108/";
         const string ApplyUrl = "http://localhost:44108/Apply";
+
+        private readonly ITestOutputHelper output;
+
+        public CreditCardApplicationShould(ITestOutputHelper _output)
+        {
+            this.output = _output;
+        }
 
         [Fact]
         public void BeInitiatedFromHomePage_NewLowRate()
@@ -42,7 +50,7 @@ namespace CreditCards.UITests
                 IWebElement carouselNext =
                 driver.FindElement(By.CssSelector("[data-slide='next']"));
                 carouselNext.Click();
-               
+
                 //DemoHelper.Pause(1000);
                 //IWebElement applyLink =
                 // driver.FindElement(By.LinkText("Easy: Apply Now!"));
@@ -52,7 +60,7 @@ namespace CreditCards.UITests
                 IWebElement applyLink = wait.Until((d) => d.FindElement(By.LinkText("Easy: Apply Now!")));
 
                 applyLink.Click();
-                
+
                 DemoHelper.Pause();
 
                 Assert.Equal("Credit Card Application - Credit Cards", driver.Title);
@@ -65,9 +73,10 @@ namespace CreditCards.UITests
         {
             using (IWebDriver driver = new ChromeDriver())
             {
-                driver.Manage().Timeouts().ImplicitWait =  TimeSpan.FromSeconds(35);
 
-                driver.Navigate().GoToUrl(HomeUrl);
+                // ******************* 1 *********************
+                //driver.Navigate().GoToUrl(HomeUrl);
+
                 //DemoHelper.Pause();
 
                 //IWebElement carouselNext =
@@ -77,8 +86,20 @@ namespace CreditCards.UITests
                 //carouselNext.Click();
                 //DemoHelper.Pause(1000);
 
+                // ******************* 2 *********************
+                output.WriteLine($"{DateTime.Now.ToLongTimeString()} Setting implicit wait");
+                driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(35);
+
+                output.WriteLine($"{DateTime.Now.ToLongTimeString()} Navigating to '{HomeUrl}'");
+                driver.Navigate().GoToUrl(HomeUrl);
+
+                output.WriteLine($"{DateTime.Now.ToLongTimeString()} Finding element");
                 IWebElement applyLink =
                  driver.FindElement(By.ClassName("customer-service-apply-now"));
+
+                output.WriteLine($"{DateTime.Now.ToLongTimeString()} Found element Displayed='{applyLink.Displayed}' Enabled='{applyLink.Enabled}'");
+
+                output.WriteLine($"{DateTime.Now.ToLongTimeString()} Clicking element");
                 applyLink.Click();
                 DemoHelper.Pause();
                 Assert.Equal("Credit Card Application - Credit Cards", driver.Title);
@@ -101,24 +122,16 @@ namespace CreditCards.UITests
                 Assert.Equal("Easy Credit Card", firstProduct);
 
 
-                //IReadOnlyCollection<IWebElement> lstProducts = driver.FindElements(By.TagName("td"));
-                //int i = 0;
-                //foreach(IWebElement tableCell in lstProducts)
-                //{
-                //    if (i == 0)
-                //    {
-                //        Assert.Equal("Easy Credit Card", tableCell.Text);
-                //    }
-                //    else if (i == 2)
-                //    {
-                //        Assert.Equal("Silver Credit Card", tableCell.Text);
-                //    }
-                //    else if (i == 4)
-                //    {
-                //        Assert.Equal("Gold Credit Card", tableCell.Text);
-                //    }
-                //    i++;
-                //}
+                ReadOnlyCollection<IWebElement> tableCells = driver.FindElements(By.TagName("td"));
+
+                Assert.Equal("Easy Credit Card", tableCells[0].Text);
+                Assert.Equal("20% APR", tableCells[1].Text);
+                Assert.Equal("Silver Credit Card", tableCells[2].Text);
+                Assert.Equal("18% APR", tableCells[3].Text);
+                Assert.Equal("Gold Credit Card", tableCells[4].Text);
+                Assert.Equal("17% APR", tableCells[5].Text);
+
+
             }
         }
 
@@ -149,12 +162,12 @@ namespace CreditCards.UITests
                 driver.Navigate().GoToUrl(HomeUrl);
                 DemoHelper.Pause();
 
-              //  IWebElement randomGreetingApplyLink =
-              //driver.FindElement(By.XPath("/html/body/div/div[4]/div/p/a"));
+                //  IWebElement randomGreetingApplyLink =
+                //driver.FindElement(By.XPath("/html/body/div/div[4]/div/p/a"));
 
                 IWebElement randomGreetingApplyLink =
               driver.FindElement(By.XPath("//a[text() [contains(.,'- Apply Now!')]]"));
-                
+
                 randomGreetingApplyLink.Click();
 
                 DemoHelper.Pause();
